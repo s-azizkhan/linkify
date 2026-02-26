@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>URL Template Builder</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- JetBrains Mono for dev look -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-panel text-white font-sans">
+    <div id="app" class="min-h-screen flex">
+        <!-- Left column: templates list -->
+        <aside class="w-80 border-r border-white/10 p-4 flex flex-col gap-4">
+            <header class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <!-- Logo + Name -->
+                    <div class="flex items-center gap-2">
+                        <!-- Monogram SVG -->
+                        <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <rect width="48" height="48" rx="8" fill="#0b0b0b" />
+                            <path d="M14 34V14h6l8 20h-6l-2-6h-6l-2 6zM28 14h6v20" stroke="#ffffff" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div>
+                            <div class="text-lg font-semibold">Linkify</div>
+                            <div class="text-xs text-white/50">URL Template Builder</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button id="importBtn" class="btn-ghost text-sm" title="Import JSON">Import</button>
+                    <button id="exportBtn" class="btn-ghost text-sm" title="Export JSON">Export</button>
+                </div>
+            </header>
+            <input id="search" class="input" placeholder="Search templates..." aria-label="Search templates">
+
+            <div class="flex gap-2">
+                <button id="addBtn" class="btn-primary flex-1">+ New</button>
+                <button id="resetBtn" class="btn-ghost" title="Reset sample data">Reset</button>
+            </div>
+
+            <div id="templatesList" class="overflow-auto flex-1 mt-2 space-y-2" role="list"
+                aria-label="Saved templates">
+                <!-- Items injected here -->
+            </div>
+
+            <footer class="text-xs text-white/50">
+                <div>localStorage key: <code class="text-sm">urlTemplateBuilder_v1</code></div>
+            </footer>
+        </aside>
+
+        <!-- Right column: workspace -->
+        <main class="flex-1 p-6">
+            <div id="emptyState" class="h-full flex flex-col items-center justify-center text-center text-white/60">
+                <div class="mb-4 text-2xl font-medium">No template selected</div>
+                <div class="max-w-lg">Create a template, give it a name, and include variables using <code
+                        class="code">{"{var_name}"}</code>. Select a template to fill variables and open the resolved
+                    URL.</div>
+            </div>
+
+            <section id="workspace" class="hidden flex-col gap-4 max-w-3xl">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h2 id="tplName" class="text-2xl font-semibold"></h2>
+                        <div id="tplMeta" class="text-sm text-white/60 mt-1"></div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="editBtn" class="btn-ghost">Edit</button>
+                        <button id="deleteBtn" class="btn-danger">Delete</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-sm text-white/60">Template</label>
+                    <pre id="tplTemplate" class="mt-2 bg-code p-3 rounded text-sm overflow-auto"></pre>
+                </div>
+
+                <form id="varsForm" class="grid gap-3">
+                    <!-- variable inputs injected here -->
+                </form>
+
+                <div class="flex items-center gap-2 mt-2">
+                    <button id="openBtn" class="btn-primary">Open</button>
+                    <button id="copyBtn" class="btn-ghost">Copy URL</button>
+                    <div id="resolvedPreview" class="ml-4 text-sm text-white/60 overflow-hidden truncate"></div>
+                </div>
+            </section>
+        </main>
+        
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input id="fileInput" type="file" accept="application/json" class="hidden" />
+
+    <!-- Modal: Create/Edit -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-panel">
+            <h3 id="modalTitle" class="text-lg font-semibold mb-2">New Template</h3>
+
+            <label class="text-sm text-white/60">Name</label>
+            <input id="tplNameInput" class="input mt-1" placeholder="GitBranch">
+
+            <label class="text-sm text-white/60 mt-3">Template</label>
+            <input id="tplInput" class="input mt-1" placeholder="https://github.com/org/repo/tree/{branch_name}">
+
+            <div id="varPreview" class="text-sm text-white/60 mt-2"></div>
+
+            <div class="flex gap-2 justify-end mt-4">
+                <button id="cancelModal" class="btn-ghost">Cancel</button>
+                <button id="saveModal" class="btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
