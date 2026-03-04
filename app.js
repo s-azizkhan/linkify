@@ -47,7 +47,7 @@ const reorderToggle = document.getElementById('reorderToggle');
 let templates = [];
 let selectedId = null;
 let editMode = false;
-let config = { theme: 'dark', reorderEnabled: true };
+let config = { theme: 'dark', reorderEnabled: false };
 
 // Utilities
 const uuid = () => 't-' + Math.random().toString(36).slice(2, 9);
