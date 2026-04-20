@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Geist } from "next/font/google";
 import { Toaster } from "sonner";
+import Script from 'next/script'
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { InstallPrompt } from "@/components/install-prompt";
 import { ServiceWorkerRegistration } from "@/components/service-worker-registration";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
@@ -57,6 +58,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <script type="text/javascript">
+          {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "wehr65hgdr");`}
+        </script>
       </head>
       <body
         className={`${jetbrainsMono.variable} font-mono min-h-screen bg-background text-foreground antialiased`}
@@ -67,6 +71,14 @@ export default function RootLayout({
         <Toaster position="bottom-right" richColors />
         <InstallPrompt />
         <ServiceWorkerRegistration />
+
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window,document,"clarity","script","wehr65hgdr");`}
+        </Script>
       </body>
     </html>
   );
