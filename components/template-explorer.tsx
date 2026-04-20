@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, type ReactElement } from "react";
 import { useLinkifyStore } from "@/lib/store";
 import { explorerTemplates, categories, type ExplorerTemplate } from "@/lib/explorer-templates";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { uuid } from "@/lib/template";
 import Link from "next/link";
 
-const categoryIcons: Record<string, JSX.Element> = {
+const categoryIcons: Record<string, ReactElement> = {
   Development: (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="16 18 22 12 16 6" />
@@ -248,11 +248,10 @@ export function TemplateExplorer() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                  activeCategory === cat
+                className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all ${activeCategory === cat
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-muted-foreground hover:text-foreground hover:bg-secondary/80"
-                }`}
+                  }`}
               >
                 {cat !== "All" && <span className="shrink-0">{categoryIcons[cat]}</span>}
                 {cat}
